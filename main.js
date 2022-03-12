@@ -1,7 +1,17 @@
-const sum = "+";
-const minus = "-";
-const div = "/";
-const multiply = "*"
+const SUM = "+";
+const MINUS = "-";
+const DIVISION = "/";
+const MULTIPICATION = "*";
+const ONE = "1";
+const TWO = "2";
+const THREE = "3";
+const FOUR = "4";
+const FIVE = "5";
+const SIX = "6";
+const SEVEN = "7";
+const EIGHT = "8";
+const NINE = "9";
+
 
 function onSubmitClick(event) {
     event.preventDefault();
@@ -11,13 +21,13 @@ function onSubmitClick(event) {
     var val2 = document.getElementById("value2").value;
     var op = document.getElementById("value3").value;
 
-    if (op === sum)
+    if (op === SUM)
         additionNumbers(val1, val2);
-    else if (op === minus)
+    else if (op === MINUS)
         subtractNumbers(val1, val2);
-    else if (op === div)
+    else if (op === DIVISION)
         divideNumbers(val1, val2);
-    else if (op === multiply)
+    else if (op === MULTIPICATION)
         mulitiplyNumbers(val1, val2);
     else
         errorFunction();
