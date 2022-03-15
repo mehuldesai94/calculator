@@ -1,60 +1,92 @@
-const SUM = "+";
-const MINUS = "-";
-const DIVISION = "/";
-const MULTIPICATION = "*";
-const ONE = "1";
-const TWO = "2";
-const THREE = "3";
-const FOUR = "4";
-const FIVE = "5";
-const SIX = "6";
-const SEVEN = "7";
-const EIGHT = "8";
-const NINE = "9";
-
+const OPERATORS = ["/", "*", "+", "-", "AC", "=", "M"]
+const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+const ANSWER = 0;
+var valueArr = [];
+const MIN_STACK = 2
 
 function onSubmitClick(event) {
     event.preventDefault();
-    console.log("Hello Mehul");
+    // console.log("Hello Mehul");
+    // console.log("Value : " + event.target.value)
+    // const data = event.target.value;
+    // console.log("data " + data);
+    // console.log("type : "+ typeof(data))
+    // console.log("const type : " + typeof(SUM))
+    const data = event.target.value;
+    valueArr.push(data);
+    console.log(valueArr);
+    OPERATORS.forEach((opt) => {
+        console.log("OPT is " + opt)
+        console.log("Array val :" + valueArr[valueArr.length - 1]);
+        if (opt == valueArr[valueArr.length - 1]) {
+            console.log("inside loop :" + opt)
+            calculateAnswer(opt);
+        } else {
+            if (valueArr.length == NUMBERS[0])
+                displayData(valueArr[0]);
+            else {
+                var updatedString = valueArr[valueArr.length - 2] + valueArr[valueArr.length - 1];
+                valueArr.pop(valueArr.length - 1);
+                console.log("Value Poped")
+                displayData(valueArr[0]);
+            }
+        }
+    })
 
-    var val1 = document.getElementById("value1").value;
-    var val2 = document.getElementById("value2").value;
-    var op = document.getElementById("value3").value;
 
-    if (op === SUM)
-        additionNumbers(val1, val2);
-    else if (op === MINUS)
-        subtractNumbers(val1, val2);
-    else if (op === DIVISION)
-        divideNumbers(val1, val2);
-    else if (op === MULTIPICATION)
-        mulitiplyNumbers(val1, val2);
-    else
-        errorFunction();
+    console.log("Array : " + valueArr);
+    // if (data === SUM)
+    //     additionNumbers(ANSWER, val2);
+    // else if (data === MINUS)
+    //     subtractNumbers(ANSWER, val2);
+    // else if (data === DIVISION)
+    //     divideNumbers(ANSWER, val2);
+    // else if (data === MULTIPICATION)
+    //     mulitiplyNumbers(ANSWER, val2);
+    // else
+    //     errorFunction();
+
+
+}
+
+
+function displayData(total) {
+    document.getElementById("txtAnswer").value = total;
+}
+
+function calculateAnswer(optType) {
+    if (optType == OPERATORS[0])
+        divideNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+    else if (optType == OPERATORS[1])
+        mulitiplyNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+    else if (optType == OPERATORS[2])
+        additionNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+    else if (optType == OPERATORS[3])
+        subtractNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
 }
 
 function additionNumbers(val1, val2) {
     console.log("Sum :" + (parseFloat(val1) + parseFloat(val2)));
     var ans = parseFloat(val1) + parseFloat(val2)
-    document.getElementById("answer").value = ans;
+    displayData(ans);
 }
 
 function subtractNumbers(val1, val2) {
     console.log("Sub :" + (parseFloat(val1) - parseFloat(val2)));
     var ans = parseFloat(val1) - parseFloat(val2)
-    document.getElementById("answer").value = ans;
+    displayData(ans);
 }
 
 function divideNumbers(val1, val2) {
     console.log("Div :" + (parseFloat(val1) / parseFloat(val2)));
     var ans = parseFloat(val1) / parseFloat(val2)
-    document.getElementById("answer").value = ans;
+    displayData(ans);
 }
 
 function mulitiplyNumbers(val1, val2) {
     console.log("Multiply  :" + (parseFloat(val1) * parseFloat(val2)));
     var ans = parseFloat(val1) * parseFloat(val2)
-    document.getElementById("answer").value = ans;
+    displayData(ans);
 }
 
 function errorFunction() {
