@@ -2,8 +2,8 @@ const OPERATORS = ["/", "*", "+", "-", "=", "AC", "M"]
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 var previousTotal = 0;
 var valueArr = [];
-const MIN_STACK = 2
-var displayString = "0"
+const MIN_STACK = 2;
+var isUpdateStack = false;
 
 function onSubmitClick(event) {
     event.preventDefault();
@@ -12,15 +12,19 @@ function onSubmitClick(event) {
 
     if (data !== OPERATORS[4]) {
         valueArr.push(data) //Push the data to stack until user press =
+        var displayString = document.getElementById("txtAnswer").value;
+        displayString += " " + data;
+        displayData(displayString);
     }
-    else if (data == OPERATORS[4]) {
+    else if (isOperator(data)) {
+        isUpdateStack = true;
         startStackSearch(); //once user enter = than function start searching operators and calculate.
-
     }
     else
         errorFunction(); // If anything went wrong user get error string.
 
     console.log("Array : " + valueArr);
+    isUpdateStack = false;
 }
 
 function refreshValueArray() {
@@ -40,14 +44,26 @@ function startStackSearch() {
 }
 
 function isOperator(opt) {
-    OPERATORS.find(element => {
-        return element == opt;
+    var isOpt = false;
+    OPERATORS.forEach(element => {
+        if (element == opt)
+            isOpt = true;
     });
+    return isOpt;
 }
 
 function displayData(outputString) {
     // previousTotal = outputString;
     document.getElementById("txtAnswer").value = outputString;
+    updateValueArray();
+}
+
+function updateValueArray() {
+    if (isUpdateStack) {
+        valueArr = [];
+        valueArr.push(document.getElementById("txtAnswer").value);
+    }
+
 }
 
 function calculateAnswer(optType, index) {
