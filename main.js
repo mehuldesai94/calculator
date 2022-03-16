@@ -1,68 +1,65 @@
-const OPERATORS = ["/", "*", "+", "-", "AC", "=", "M"]
+const OPERATORS = ["/", "*", "+", "-", "=", "AC", "M"]
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-const ANSWER = 0;
+var previousTotal = 0;
 var valueArr = [];
 const MIN_STACK = 2
+var displayString = "0"
 
 function onSubmitClick(event) {
     event.preventDefault();
-    // console.log("Hello Mehul");
-    // console.log("Value : " + event.target.value)
-    // const data = event.target.value;
-    // console.log("data " + data);
-    // console.log("type : "+ typeof(data))
-    // console.log("const type : " + typeof(SUM))
-    const data = event.target.value;
-    valueArr.push(data);
-    console.log(valueArr);
-    OPERATORS.forEach((opt) => {
-        console.log("OPT is " + opt)
-        console.log("Array val :" + valueArr[valueArr.length - 1]);
-        if (opt == valueArr[valueArr.length - 1]) {
-            console.log("inside loop :" + opt)
-            calculateAnswer(opt);
-        } else {
-            if (valueArr.length == NUMBERS[0])
-                displayData(valueArr[0]);
-            else {
-                var updatedString = valueArr[valueArr.length - 2] + valueArr[valueArr.length - 1];
-                valueArr.pop(valueArr.length - 1);
-                console.log("Value Poped")
-                displayData(valueArr[0]);
-            }
-        }
-    })
 
+    const data = event.target.value;
+
+    if (data !== OPERATORS[4]) {
+        valueArr.push(data) //Push the data to stack until user press =
+    }
+    else if (data == OPERATORS[4]) {
+        startStackSearch(); //once user enter = than function start searching operators and calculate.
+
+    }
+    else
+        errorFunction(); // If anything went wrong user get error string.
 
     console.log("Array : " + valueArr);
-    // if (data === SUM)
-    //     additionNumbers(ANSWER, val2);
-    // else if (data === MINUS)
-    //     subtractNumbers(ANSWER, val2);
-    // else if (data === DIVISION)
-    //     divideNumbers(ANSWER, val2);
-    // else if (data === MULTIPICATION)
-    //     mulitiplyNumbers(ANSWER, val2);
-    // else
-    //     errorFunction();
+}
 
+function refreshValueArray() {
 
 }
 
-
-function displayData(total) {
-    document.getElementById("txtAnswer").value = total;
+function startStackSearch() {
+    console.log("Temp solution called!!")
+    valueArr.forEach((data, i) => {
+        if (isOperator(data)) {
+            console.log("operated found!!")
+            var firstValue = valueArr[i - 1];
+            var secondValue = valueArr[i + 1];
+            calculateAnswer(data, i);
+        }
+    });
 }
 
-function calculateAnswer(optType) {
+function isOperator(opt) {
+    OPERATORS.find(element => {
+        return element == opt;
+    });
+}
+
+function displayData(outputString) {
+    // previousTotal = outputString;
+    document.getElementById("txtAnswer").value = outputString;
+}
+
+function calculateAnswer(optType, index) {
+    console.log("Calculated ans called !!");
     if (optType == OPERATORS[0])
-        divideNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+        divideNumbers(valueArr[index - 1], valueArr[index + 1]);
     else if (optType == OPERATORS[1])
-        mulitiplyNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+        mulitiplyNumbers(valueArr[index - 1], valueArr[index + 1]);
     else if (optType == OPERATORS[2])
-        additionNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+        additionNumbers(valueArr[index - 1], valueArr[index + 1]);
     else if (optType == OPERATORS[3])
-        subtractNumbers(valueArr[valueArr.length - 3], valueArr[valueArr.length - 1]);
+        subtractNumbers(valueArr[index - 1], valueArr[index + 1]);
 }
 
 function additionNumbers(val1, val2) {

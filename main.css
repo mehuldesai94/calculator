@@ -42,8 +42,12 @@ form {
 }
 
 .txt-center{
-    text-align: right;
+    text-align: center;
     border: solid lightblue 1px;
+}
+
+.txt-right{
+    text-align: right;
 }
 
 .btn-size{
@@ -51,3 +55,6 @@ form {
     height: 50px;
 }
 
+.font-size-large{
+    font-size: 25px;
+}
