@@ -4,12 +4,13 @@ var previousTotal = 0;
 var valueArr = [];
 const MIN_STACK = 2;
 var isUpdateStack = false;
+var isCunsisutiveNumbers = true;
 
 function onSubmitClick(event) {
     event.preventDefault();
 
     const data = event.target.value;
-
+    
     if (data !== OPERATORS[4]) {
         valueArr.push(data) //Push the data to stack until user press =
         var displayString = document.getElementById("txtAnswer").value;
@@ -17,7 +18,8 @@ function onSubmitClick(event) {
         displayData(displayString);
     }
     else if (isOperator(data)) {
-        isUpdateStack = true;
+        isUpdateStack = true; // use to splice data array once calculation done
+        concateNumbersInValueArray();
         startStackSearch(); //once user enter = than function start searching operators and calculate.
     }
     else
@@ -27,29 +29,49 @@ function onSubmitClick(event) {
     isUpdateStack = false;
 }
 
-function refreshValueArray() {
-
+function concateNumbersInValueArray() {
+    var isNumber = false;
+    var concatedNum = ''
+    var count = 0;
+    for (var i = 0; i < valueArr.length; i++) {
+        if (isOperator(valueArr[i]))
+            continue;
+        else {
+            if (i == 0)
+                continue;
+            else {
+                if (!isOperator(valueArr[i - 1])) {
+                    concatedNum = valueArr[i - 1] + valueArr[i];
+                    valueArr[i] = concatedNum;
+                    valueArr.splice(i - 1, 1);
+                    i--;
+                }
+            }
+        }
+        // var firstData = valueArr[i];
+        // var secondData = valueArr[i + 1]
+        // if (!isOperator(firstData) && !isOperator(secondData)) {
+        //     var num = firstData + secondData;
+        //     console.log("number :" + num);
+        //     valueArr[i+1] = num;
+        //     valueArr.splice(i, 1);
+        //     console.log("concate array: " + valueArr);
+        //     //i-=1;
+        // }
+    }
 }
 
 function startStackSearch() {
-
-    for(var i = 0; i < valueArr.length; i++){
+    for (var i = 0; i < valueArr.length; i++) {
         var data = valueArr[i];
         if (isOperator(data)) {
             var firstValue = valueArr[i - 1];
             var secondValue = valueArr[i + 1];
             calculateAnswer(data, i);
-            i-=2;
+            //i -= 2;
+            i = 0;
         }
     }
-
-    // valueArr.forEach((data, i) => {
-    //     if (isOperator(data)) {
-    //         var firstValue = valueArr[i - 1];
-    //         var secondValue = valueArr[i + 1];
-    //         calculateAnswer(data, i);
-    //     }
-    // });
 }
 
 function isOperator(opt) {
@@ -74,7 +96,6 @@ function updateValueArray() {
         valueArr[0] = (document.getElementById("txtAnswer").value);
         console.log("Updated Array : " + valueArr);
     }
-
 }
 
 function calculateAnswer(optType, index) {
