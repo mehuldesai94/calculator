@@ -1,4 +1,5 @@
-const OPERATORS = ["/", "*", "+", "-", "=", "AC", "M"]
+const OPERATORS = ["/", "*", "+", "-", "=", "%", "M"]
+const AC = 'AC';
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 var previousTotal = 0;
 var valueArr = [];
@@ -10,14 +11,18 @@ function onSubmitClick(event) {
     event.preventDefault();
 
     const data = event.target.value;
-    
-    if (data !== OPERATORS[4]) {
+
+    if (data == AC) {
+        valueArr = [];
+        displayData("0");
+    } else if (data !== OPERATORS[4]) {
         valueArr.push(data) //Push the data to stack until user press =
         var displayString = document.getElementById("txtAnswer").value;
+        if(displayString == "Error" || displayString == "0")
+            displayString = "";
         displayString += " " + data;
         displayData(displayString);
-    }
-    else if (isOperator(data)) {
+    } else if (isOperator(data)) {
         isUpdateStack = true; // use to splice data array once calculation done
         concateNumbersInValueArray();
         startStackSearch(); //once user enter = than function start searching operators and calculate.
@@ -48,16 +53,6 @@ function concateNumbersInValueArray() {
                 }
             }
         }
-        // var firstData = valueArr[i];
-        // var secondData = valueArr[i + 1]
-        // if (!isOperator(firstData) && !isOperator(secondData)) {
-        //     var num = firstData + secondData;
-        //     console.log("number :" + num);
-        //     valueArr[i+1] = num;
-        //     valueArr.splice(i, 1);
-        //     console.log("concate array: " + valueArr);
-        //     //i-=1;
-        // }
     }
 }
 
@@ -124,8 +119,12 @@ function subtractNumbers(val1, val2) {
 
 function divideNumbers(val1, val2) {
     console.log("Div :" + (parseFloat(val1) / parseFloat(val2)));
-    var ans = parseFloat(val1) / parseFloat(val2)
+    var ans = (val2 == 0) ? "Error" : parseFloat(val1) / parseFloat(val2)
     displayData(ans);
+
+    if (val2 == 0) {
+        valueArr = [];
+    }
 }
 
 function mulitiplyNumbers(val1, val2) {
