@@ -32,15 +32,24 @@ function refreshValueArray() {
 }
 
 function startStackSearch() {
-    console.log("Temp solution called!!")
-    valueArr.forEach((data, i) => {
+
+    for(var i = 0; i < valueArr.length; i++){
+        var data = valueArr[i];
         if (isOperator(data)) {
-            console.log("operated found!!")
             var firstValue = valueArr[i - 1];
             var secondValue = valueArr[i + 1];
             calculateAnswer(data, i);
+            i-=2;
         }
-    });
+    }
+
+    // valueArr.forEach((data, i) => {
+    //     if (isOperator(data)) {
+    //         var firstValue = valueArr[i - 1];
+    //         var secondValue = valueArr[i + 1];
+    //         calculateAnswer(data, i);
+    //     }
+    // });
 }
 
 function isOperator(opt) {
@@ -60,14 +69,16 @@ function displayData(outputString) {
 
 function updateValueArray() {
     if (isUpdateStack) {
-        valueArr = [];
-        valueArr.push(document.getElementById("txtAnswer").value);
+        valueArr.splice(0, 2);
+        console.log("Sliced Array : " + valueArr);
+        valueArr[0] = (document.getElementById("txtAnswer").value);
+        console.log("Updated Array : " + valueArr);
     }
 
 }
 
 function calculateAnswer(optType, index) {
-    console.log("Calculated ans called !!");
+    // console.log("Calculated ans called !!");
     if (optType == OPERATORS[0])
         divideNumbers(valueArr[index - 1], valueArr[index + 1]);
     else if (optType == OPERATORS[1])
