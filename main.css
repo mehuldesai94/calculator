@@ -58,3 +58,7 @@ form {
 .font-size-large{
     font-size: 25px;
 }
+
+.f-2{
+    flex: 2;
+}

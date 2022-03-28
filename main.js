@@ -7,6 +7,11 @@ const MIN_STACK = 2;
 var isUpdateStack = false;
 var isCunsisutiveNumbers = true;
 
+var txtAnswerField = document.getElementById("txtAnswer");
+txtAnswerField.addEventListener("keypress", (event) => {
+    
+})
+
 function onSubmitClick(event) {
     event.preventDefault();
 
@@ -18,7 +23,7 @@ function onSubmitClick(event) {
     } else if (data !== OPERATORS[4]) {
         valueArr.push(data) //Push the data to stack until user press =
         var displayString = document.getElementById("txtAnswer").value;
-        if(displayString == "Error" || displayString == "0")
+        if (displayString == "Error" || displayString == "0")
             displayString = "";
         displayString += " " + data;
         displayData(displayString);
