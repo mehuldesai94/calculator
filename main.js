@@ -7,11 +7,6 @@ const MIN_STACK = 2;
 var isUpdateStack = false;
 var isCunsisutiveNumbers = true;
 
-var txtAnswerField = document.getElementById("txtAnswer");
-txtAnswerField.addEventListener("keypress", (event) => {
-    
-})
-
 function onSubmitClick(event) {
     event.preventDefault();
 
